@@ -1,16 +1,22 @@
-import React from 'react';
+import React, { use } from 'react';
 import { useState } from 'react';
-export default function LoginPage() {
+import axiosInstance from '../assets/Axios';
+import { useNavigate } from 'react-router';
+export default function LoginPage({ userInfo, setuserInfo }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [remember, setRemember] = useState(false);
-    const handleSubmit = (e) => {
+    const navigate = useNavigate();
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const data = {
             email,
             password,
             remember,
         }
+        const user = await axiosInstance.post('login', data);
+        setuserInfo(user.data);
+        navigate('/dashboard');
     }
     return (
         <section className="bg-gray-50 dark:bg-gray-900">

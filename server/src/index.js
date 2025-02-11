@@ -4,6 +4,7 @@ import loginRouter from './routes/login.js';
 import cookieParser from 'cookie-parser';
 import verifyToken from './middleware/verifyToken.js';
 import postsRouter from './routes/posts.js';
+import refreshRouter from './routes/refresh.js';
 import { connectDb } from './lib/db.js';
 import cors from 'cors';
 connectDb();
@@ -12,9 +13,11 @@ app.use(cors({
     credentials: true,
     origin: 'http://localhost:3000'
     }));
+app.use(cookieParser())
 app.use(express.json());
 app.use('/signup', signupRouter);
 app.use('/login', loginRouter);
+app.use('/refresh', refreshRouter);
 app.use(verifyToken);
 app.use('/posts', postsRouter);
 

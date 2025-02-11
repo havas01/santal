@@ -5,9 +5,10 @@ import bcrypt from "bcrypt";
 const signup = async (req, res) => {
     try {
         const {userName, password, email} = req.body;
-        const {findUser, findEmail} = await Promise.all([User.find({name : userName}), User.find({email})]);
-        if(findUser || findEmail) {
-            return res.status(400).json({message: "UserName or Email already exists"});
+        let userExists = await User.findOne({ email }) || await User.findOne({ name: userName });
+        console.log(userExists);
+        if(userExists !== null){
+            return res.status(400).json({message: "User already exists"});
         }
         const hashedPassword = await bcrypt.hash(password, 12);
         const user = new User({name : userName, password: hashedPassword, email});
@@ -21,6 +22,7 @@ const signup = async (req, res) => {
 
 const login = async (req, res) => { 
     try {
+        console.log(req.body);  
         const { email, password } = req.body;
         const user = await User.findOne({ email });
         if (!user) {
@@ -35,7 +37,7 @@ const login = async (req, res) => {
         await user.save();
         const userName = user.name;
         const accessToken = jwt.sign({userId : user._id, userName, email}, process.env.ACCESS_TOKEN, {expiresIn: "15m"});
-        res.cookie("refreshToken", RefreshToken, {httpOnly: true, sameSite : 'None', secure: true});
+        res.cookie("jwt", RefreshToken, {httpOnly: true, sameSite : 'None', maxAge: 7*24*60*60*1000});
         res.json({accessToken, userName, email});
     } catch (error) {
         console.error("Error signing up: ", error.message);

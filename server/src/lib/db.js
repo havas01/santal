@@ -16,8 +16,9 @@ const schema = new mongoose.Schema({
 });
 
 const postsSchema = new mongoose.Schema({
-    userId : {type: String, required: true},
-    posts : [{type: String, required: true}],
+    email: {type: String, required: true},
+    posts : {type: String, required: true},
+    postsTitle : {type: String, required: true},
 })
 
 

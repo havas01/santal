@@ -33,7 +33,7 @@ const login = async (req, res) => {
         const RefreshToken = jwt.sign({userId : user._id}, process.env.REFRESH_TOKEN, {expiresIn: "7d"});
         user.refreshToken = RefreshToken;
         await user.save();
-        const userName = user.user;
+        const userName = user.name;
         const accessToken = jwt.sign({userId : user._id, userName, email}, process.env.ACCESS_TOKEN, {expiresIn: "15m"});
         res.cookie("refreshToken", RefreshToken, {httpOnly: true, sameSite : 'None', secure: true});
         res.json({accessToken, userName, email});

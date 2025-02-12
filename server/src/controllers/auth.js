@@ -6,7 +6,6 @@ const signup = async (req, res) => {
     try {
         const {userName, password, email} = req.body;
         let userExists = await User.findOne({ email }) || await User.findOne({ name: userName });
-        console.log(userExists);
         if(userExists !== null){
             return res.status(400).json({message: "User already exists"});
         }
@@ -21,8 +20,7 @@ const signup = async (req, res) => {
 }
 
 const login = async (req, res) => { 
-    try {
-        console.log(req.body);  
+    try { 
         const { email, password } = req.body;
         const user = await User.findOne({ email });
         if (!user) {
@@ -37,8 +35,9 @@ const login = async (req, res) => {
         await user.save();
         const userName = user.name;
         const accessToken = jwt.sign({userId : user._id, userName, email}, process.env.ACCESS_TOKEN, {expiresIn: "15m"});
-        res.cookie("jwt", RefreshToken, {httpOnly: true, sameSite : 'None', maxAge: 7*24*60*60*1000});
-        res.json({accessToken, userName, email});
+        res.cookie("jwt", RefreshToken, {httpOnly: true, sameSite : 'None', maxAge: 7*24*60*60*1000, secure: true});
+        res.cookie("accessToken", accessToken, {httpOnly: true, sameSite : 'None', maxAge: 15*60*1000, secure: true});
+        res.json({userName, email});
     } catch (error) {
         console.error("Error signing up: ", error.message);
         res.status(500).json({message: "Internal server error"});

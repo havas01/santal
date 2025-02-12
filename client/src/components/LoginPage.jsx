@@ -1,5 +1,4 @@
-import React, { use } from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axiosInstance from '../assets/Axios';
 import { useNavigate } from 'react-router';
 export default function LoginPage({ userInfo, setuserInfo }) {
@@ -7,6 +6,20 @@ export default function LoginPage({ userInfo, setuserInfo }) {
     const [password, setPassword] = useState('');
     const [remember, setRemember] = useState(false);
     const navigate = useNavigate();
+    useEffect(() => {
+        const refresh = async () => {
+            try {
+                const response = await axiosInstance.get('refresh');
+                localStorage.setItem('details', JSON.stringify(response.data));
+                
+                navigate('/');
+            } catch (error) {
+                console.error("Error refreshing token: ", error.message);
+            }
+        }
+        refresh();
+    }, [])
+    console.log('sdfsdf');
     const handleSubmit = async (e) => {
         e.preventDefault();
         const data = {
@@ -15,8 +28,8 @@ export default function LoginPage({ userInfo, setuserInfo }) {
             remember,
         }
         const user = await axiosInstance.post('login', data);
-        setuserInfo(user.data);
-        navigate('/dashboard');
+        localStorage.setItem('details', JSON.stringify(user.data));
+        navigate('/');
     }
     return (
         <section className="bg-gray-50 dark:bg-gray-900">
@@ -88,13 +101,13 @@ export default function LoginPage({ userInfo, setuserInfo }) {
                                     Forgot password?
                                 </a>
                             </div>
-                                <button
-                                    type="submit"
-                                    className="w-full text-white bg-primary-600 hover:bg-primary-700 hover:opacity-90 hover:scale-105 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 transition-all duration-200 cursor-pointer"
-                                    onClick={handleSubmit}
-                                >
-                                    Sign in
-                                </button>
+                            <button
+                                type="submit"
+                                className="w-full text-white bg-primary-600 hover:bg-primary-700 hover:opacity-90 hover:scale-105 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 transition-all duration-200 cursor-pointer"
+                                onClick={handleSubmit}
+                            >
+                                Sign in
+                            </button>
 
                             <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                                 Don’t have an account yet?{' '}

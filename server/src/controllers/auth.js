@@ -35,9 +35,8 @@ const login = async (req, res) => {
         await user.save();
         const userName = user.name;
         const accessToken = jwt.sign({userId : user._id, userName, email}, process.env.ACCESS_TOKEN, {expiresIn: "15m"});
-        res.cookie("jwt", RefreshToken, {httpOnly: true, sameSite : 'None', maxAge: 7*24*60*60*1000, secure: true});
-        res.cookie("accessToken", accessToken, {httpOnly: true, sameSite : 'None', maxAge: 15*60*1000, secure: true});
-        res.json({userName, email});
+        res.cookie("refreshToken", RefreshToken, {httpOnly: true, maxAge: 1000 * 60 * 60 * 24 * 7, sameSite: 'None', secure: true});
+        res.json({userName, email, accessToken});
     } catch (error) {
         console.error("Error signing up: ", error.message);
         res.status(500).json({message: "Internal server error"});

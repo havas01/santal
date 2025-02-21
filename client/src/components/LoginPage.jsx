@@ -1,35 +1,25 @@
 import { useState, useEffect } from 'react';
 import axiosInstance from '../assets/Axios';
+import axios from 'axios';
 import { useNavigate } from 'react-router';
-export default function LoginPage({ userInfo, setuserInfo }) {
+import Cookies from 'js-cookie';
+export default function LoginPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [remember, setRemember] = useState(false);
     const navigate = useNavigate();
-    useEffect(() => {
-        const refresh = async () => {
-            try {
-                const response = await axiosInstance.get('refresh');
-                localStorage.setItem('details', JSON.stringify(response.data));
-                
-                navigate('/');
-            } catch (error) {
-                console.error("Error refreshing token: ", error.message);
-            }
-        }
-        refresh();
-    }, [])
-    console.log('sdfsdf');
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const data = {
-            email,
-            password,
-            remember,
+        try {
+            const user = await axios.post('http://localhost:5000/login', {email, password});
+            const ud = user.data;
+            Cookies.set('userName', ud.userName, {sameSite : 'strict'});
+            Cookies.set('email', ud.email, {sameSite : 'strict'});
+            Cookies.set('accessToken', `Bearer ${ud.accessToken}`, {sameSite : 'strict'});
+            navigate('/');
+        } catch (error) {
+            console.log(error.message)
         }
-        const user = await axiosInstance.post('login', data);
-        localStorage.setItem('details', JSON.stringify(user.data));
-        navigate('/');
     }
     return (
         <section className="bg-gray-50 dark:bg-gray-900">

@@ -2,7 +2,13 @@ import { posts } from '../lib/db.js';
 
 const getPosts = async (req, res) => {
     try {
-        const allPosts = await posts.find({});
+        let allPosts;
+        const city = req.query.city.charAt(0).toUpperCase() + req.query.city.slice(1);
+        if(!city) {
+            allPosts = await posts.find({});
+        } else{
+            allPosts = await posts.find({city : city});
+        }
         res.json(allPosts);
     } catch (error) {
         console.error("Error getting posts: ", error.message);
@@ -12,9 +18,9 @@ const getPosts = async (req, res) => {
 
 const createPost = async (req, res) => {
     try {
-        const { title, content } = req.body;
+        const { name, content } = req.body;
         const email = req.headers.email;
-        const post = new posts({email : email, posts: content, postsTitle: title});
+        const post = new posts({email : email, posts: content, postsname: name});
         await post.save();
         res.status(201).json({message: "Post created successfully"});
     } catch (error) {

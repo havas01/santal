@@ -18,8 +18,8 @@ app.use(express.json());
 app.use('/signup', signupRouter);
 app.use('/login', loginRouter);
 app.use('/refresh', refreshRouter);
-app.use(verifyToken);
 app.use('/posts', postsRouter);
+app.use(verifyToken);
 
 app.listen('5000', () => {
     console.log(`Server is running on http://localhost:5000`);

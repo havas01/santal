@@ -11,11 +11,11 @@ export default function LoginPage() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const user = await axios.post('http://localhost:5000/login', {email, password});
+            const user = await axiosInstance.post('/login', {email, password});
             const ud = user.data;
             Cookies.set('userName', ud.userName, {sameSite : 'strict'});
             Cookies.set('email', ud.email, {sameSite : 'strict'});
-            Cookies.set('accessToken', `Bearer ${ud.accessToken}`, {sameSite : 'strict'});
+            Cookies.set('accessToken', `${ud.accessToken}`, {sameSite : 'strict'});
             navigate('/');
         } catch (error) {
             console.log(error.message)

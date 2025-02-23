@@ -16,10 +16,16 @@ const schema = new mongoose.Schema({
 });
 
 const postsSchema = new mongoose.Schema({
-    email: {type: String, required: true},
-    posts : {type: String, required: true},
-    postsTitle : {type: String, required: true},
-})
+    email: { type: String, required: true },
+    Name: { type: String, required: true },
+    city : {type : String, required : true},
+    post: {
+        title: { type: String, required: true },
+        description: { type: String, required: true },
+        price: { type: Number, required: true },
+        location: { type: String, required : true }
+    }
+});
 
 
 

@@ -30,4 +30,6 @@ const createPost = async (req, res) => {
     }
 }
 
+
+
 export { getPosts, createPost };

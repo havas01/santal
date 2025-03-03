@@ -22,8 +22,18 @@ Router.delete('/:id', async (req, res) => {
         }
         
         const post = await posts.findByIdAndDelete(id);
-        console.log(post);
         res.json({message : 'succesfully deleted'})
+    } catch (error) {
+        console.log(error);
+        res.json(error)
+    }
+})
+Router.post('/', async (req, res) => {
+    try {
+        const post = req.body;
+        post.email = req.user.email;
+        await new posts(post).save();
+        res.status(201).send('sucess full')
     } catch (error) {
         console.log(error);
         res.json(error)

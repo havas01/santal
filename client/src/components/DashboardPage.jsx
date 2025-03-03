@@ -136,7 +136,7 @@ const DashboardPage = () => {
                             <button
                                 className="w-full py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition duration-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
                                 onClick={() => {
-                                    alert('Create post functionality will be implemented later');
+                                    navigate('/list')
                                 }}
                             >
                                 <div className="flex items-center justify-center">
@@ -197,16 +197,6 @@ const DashboardPage = () => {
                                         </svg>
                                         <h3 className="mt-4 text-xl font-medium text-gray-700">No listings yet</h3>
                                         <p className="mt-2 text-gray-500">You haven't posted any items for sale.</p>
-                                        <button
-                                            className="mt-4 px-4 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition duration-200"
-                                            onClick={() => {
-                                                // Add navigation to create post page
-                                                // navigate('/create-post');
-                                                alert('Create post functionality will be implemented later');
-                                            }}
-                                        >
-                                            Create Your First Listing
-                                        </button>
                                     </div>
                                 )}
                             </div>

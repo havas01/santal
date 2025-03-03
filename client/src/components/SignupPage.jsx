@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axiosInstance from '../assets/Axios';
-import { useNavigate } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 
 export default function SignupPage() {
     const navigate = useNavigate();
@@ -12,7 +12,7 @@ export default function SignupPage() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axiosInstance.post('signup', { userName : username, email, password });
+            const response = await axiosInstance.post('signup', { userName: username, email, password });
             navigate('/login');
         } catch (error) {
             console.error("Error signing up: ", error.message);
@@ -20,18 +20,18 @@ export default function SignupPage() {
     };
 
     return (
-        <section className="bg-gray-50 dark:bg-gray-900">
-            <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-                <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
-                    <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-                        <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+        <section className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+            <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen">
+                <div className="w-full bg-white rounded-2xl shadow-xl sm:max-w-md">
+                    <div className="p-8 space-y-6">
+                        <h1 className="text-2xl font-bold text-gray-800 text-center">
                             Create your account
                         </h1>
-                        <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
+                        <form className="space-y-6" onSubmit={handleSubmit}>
                             <div>
                                 <label
                                     htmlFor="username"
-                                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                    className="block mb-2 text-sm font-medium text-gray-800"
                                 >
                                     Username
                                 </label>
@@ -42,17 +42,14 @@ export default function SignupPage() {
                                     placeholder="Your username"
                                     value={username}
                                     onChange={(e) => setUsername(e.target.value)}
-                                    className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg
-                             focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5
-                             dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
-                             dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    className="bg-gray-50 border border-gray-300 text-gray-800 rounded-lg block w-full p-2.5 focus:ring-blue-600 focus:border-blue-600"
                                     required
                                 />
                             </div>
                             <div>
                                 <label
                                     htmlFor="email"
-                                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                    className="block mb-2 text-sm font-medium text-gray-800"
                                 >
                                     Your Email
                                 </label>
@@ -63,17 +60,14 @@ export default function SignupPage() {
                                     placeholder="name@company.com"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
-                                    className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg
-                             focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5
-                             dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
-                             dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    className="bg-gray-50 border border-gray-300 text-gray-800 rounded-lg block w-full p-2.5 focus:ring-blue-600 focus:border-blue-600"
                                     required
                                 />
                             </div>
                             <div>
                                 <label
                                     htmlFor="password"
-                                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                    className="block mb-2 text-sm font-medium text-gray-800"
                                 >
                                     Password
                                 </label>
@@ -84,31 +78,24 @@ export default function SignupPage() {
                                     placeholder="••••••••"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg
-                             focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5
-                             dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
-                             dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    className="bg-gray-50 border border-gray-300 text-gray-800 rounded-lg block w-full p-2.5 focus:ring-blue-600 focus:border-blue-600"
                                     required
                                 />
                             </div>
                             <button
                                 type="submit"
-                                className="w-full text-white bg-primary-600 hover:bg-primary-700
-                           focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium
-                           rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600
-                           dark:hover:bg-primary-700 dark:focus:ring-primary-800 transition-all
-                           duration-200 cursor-pointer"
+                                className="w-full text-white bg-blue-600 hover:bg-blue-700 font-medium rounded-lg text-sm px-5 py-2.5 transition duration-200"
                             >
                                 Sign Up
                             </button>
-                            <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+                            <p className="text-sm text-gray-600 text-center">
                                 Already have an account?{' '}
-                                <a
+                                <Link
                                     href="/login"
-                                    className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                                    className="font-medium text-blue-600 hover:underline"
                                 >
                                     Login here
-                                </a>
+                                </Link>
                             </p>
                         </form>
                     </div>
